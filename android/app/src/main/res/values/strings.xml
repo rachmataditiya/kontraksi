@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Timer Kontraksi</string>
+    <string name="title_activity_main">Timer Kontraksi</string>
+    <string name="package_name">com.kontraksi.app</string>
+    <string name="custom_url_scheme">com.kontraksi.app</string>
+</resources>
