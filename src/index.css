@@ -22,3 +22,8 @@ body {
   -webkit-user-select: none;
   user-select: none;
 }
+
+/* Pastikan header tidak tertutup status bar */
+.header {
+  padding-top: env(safe-area-inset-top);
+}

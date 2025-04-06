@@ -378,7 +378,8 @@ function App() {
   };
 
   return (
-    <div className={`min-h-screen ${colors.bg} transition-colors duration-500`}>
+    // Tambahkan safe area inset di bagian atas container utama
+    <div style={{ paddingTop: 'env(safe-area-inset-top)' }} className={`min-h-screen ${colors.bg} transition-colors duration-500`}>
       {/* Render halaman aktif */}
       {renderPage()}
 
@@ -387,27 +388,21 @@ function App() {
         <div className="max-w-md mx-auto flex justify-around">
           <button
             onClick={() => setCurrentPage('timer')}
-            className={`flex flex-col items-center gap-0.5 ${
-              currentPage === 'timer' ? 'text-blue-600' : 'text-gray-500'
-            }`}
+            className={`flex flex-col items-center gap-0.5 ${currentPage === 'timer' ? 'text-blue-600' : 'text-gray-500'}`}
           >
             <Timer className="w-5 h-5" />
             <span className="text-xs">Timer</span>
           </button>
           <button
             onClick={() => setCurrentPage('history')}
-            className={`flex flex-col items-center gap-0.5 ${
-              currentPage === 'history' ? 'text-blue-600' : 'text-gray-500'
-            }`}
+            className={`flex flex-col items-center gap-0.5 ${currentPage === 'history' ? 'text-blue-600' : 'text-gray-500'}`}
           >
             <Clock className="w-5 h-5" />
             <span className="text-xs">Riwayat</span>
           </button>
           <button
             onClick={() => setCurrentPage('education')}
-            className={`flex flex-col items-center gap-0.5 ${
-              currentPage === 'education' ? 'text-blue-600' : 'text-gray-500'
-            }`}
+            className={`flex flex-col items-center gap-0.5 ${currentPage === 'education' ? 'text-blue-600' : 'text-gray-500'}`}
           >
             <BookOpen className="w-5 h-5" />
             <span className="text-xs">Panduan</span>
