@@ -306,7 +306,8 @@ function App() {
                            after:bg-gradient-to-b after:from-white/80 after:via-transparent
                            after:to-transparent after:opacity-50 after:-z-10
                            ring-[16px] ${isContractionActive ? 'ring-red-500' : colors.ring} ring-opacity-20
-                           ${isContractionActive ? 'cursor-not-allowed' : 'cursor-pointer'}`}
+                           ${isContractionActive ? 'cursor-not-allowed' : 'cursor-pointer'}
+                           mt-8`}
                 >
                   <span className={`transform ${isContractionActive ? 'scale-95' : 'scale-100'} 
                                 transition-transform duration-200`}>
