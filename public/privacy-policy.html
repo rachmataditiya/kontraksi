@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kebijakan Privasi - Timer Kontraksi</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      background-color: #F5F7FF;
+      background-image: 
+        radial-gradient(circle at 10% 20%, rgba(30, 76, 148, 0.05) 0%, transparent 20%),
+        radial-gradient(circle at 90% 80%, rgba(54, 31, 117, 0.05) 0%, transparent 20%);
+      background-attachment: fixed;
+    }
+    .language-switcher button.active {
+      background-color: #1E4C94;
+      color: white;
+      box-shadow: 0 4px 12px rgba(30, 76, 148, 0.2);
+    }
+    .language-switcher button:not(.active) {
+      background-color: #E6F0FF;
+      color: #1E4C94;
+      transition: all 0.3s ease;
+    }
+    .language-switcher button:not(.active):hover {
+      background-color: #D1E3FF;
+      transform: translateY(-2px);
+    }
+    .section-card {
+      transition: all 0.3s ease;
+      border: 1px solid rgba(226, 232, 240, 0.8);
+    }
+    .section-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    }
+    .header-pattern {
+      background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    }
+    .fade-in {
+      animation: fadeIn 0.5s ease-in-out;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .content-section {
+      opacity: 0;
+      transform: translateY(10px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+    .content-section.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .back-to-app {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background-color: #1E4C94;
+      color: white;
+      padding: 12px 20px;
+      border-radius: 50px;
+      box-shadow: 0 4px 12px rgba(30, 76, 148, 0.2);
+      transition: all 0.3s ease;
+      z-index: 50;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 500;
+    }
+    .back-to-app:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(30, 76, 148, 0.3);
+    }
+    .section-title {
+      position: relative;
+      display: inline-block;
+    }
+    .section-title::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 40px;
+      height: 3px;
+      background: linear-gradient(to right, #1E4C94, #361F75);
+      border-radius: 3px;
+    }
+    .header-title {
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+      background: linear-gradient(to right, #ffffff, #e6f0ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-fill-color: transparent;
+    }
+    .header-subtitle {
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+      color: rgba(255, 255, 255, 0.95);
+    }
+    .header-glow {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      background: radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.2) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: 5;
+    }
+  </style>
+</head>
+<body>
+  <header class="relative overflow-hidden bg-gradient-to-r from-[#1E4C94] to-[#361F75] text-white py-16 px-4 text-center header-pattern">
+    <div class="header-glow"></div>
+    <div 
+      class="absolute inset-0 bg-cover bg-center opacity-10 z-0"
+      style="background-image: url('https://images.unsplash.com/photo-1519824144890-9d9e6f5a5c5c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80');"
+    ></div>
+    <div class="max-w-4xl mx-auto">
+      <h1 class="text-4xl md:text-5xl font-bold mb-4 relative z-10 animate__animated animate__fadeInDown header-title" id="header-title">Kebijakan Privasi</h1>
+      <p class="text-lg opacity-90 max-w-2xl mx-auto relative z-10 animate__animated animate__fadeInUp animate__delay-1s header-subtitle" id="header-subtitle">Aplikasi Timer Kontraksi</p>
+    </div>
+  </header>
+  
+  <div class="max-w-4xl mx-auto px-4 py-8">
+    <div class="bg-white rounded-2xl shadow-lg p-8 md:p-10 -mt-8 relative z-20">
+      <div id="id-content" class="space-y-8">
+        <div class="section-card bg-white rounded-xl p-6 content-section">
+          <h2 class="text-2xl font-semibold text-[#1E4C94] section-title">Pendahuluan</h2>
+          <p class="mt-4 text-gray-700">Selamat datang di aplikasi Timer Kontraksi. Kami menghargai privasi Anda dan berkomitmen untuk melindungi data pribadi Anda. Kebijakan privasi ini menjelaskan bagaimana aplikasi kami beroperasi tanpa mengumpulkan data pribadi Anda.</p>
+        </div>
+        
+        <div class="section-card bg-white rounded-xl p-6 content-section">
+          <h2 class="text-2xl font-semibold text-[#1E4C94] section-title">Tidak Ada Pengumpulan Data</h2>
+          <p class="mt-4 text-gray-700">Aplikasi Timer Kontraksi dirancang dengan mempertimbangkan privasi Anda. Kami <strong class="text-[#1E4C94]">tidak mengumpulkan data pribadi</strong> sama sekali. Semua data yang Anda masukkan ke dalam aplikasi disimpan secara lokal di perangkat Anda dan tidak dikirim ke server kami.</p>
+        </div>
+        
+        <div class="section-card bg-white rounded-xl p-6 content-section">
+          <h2 class="text-2xl font-semibold text-[#1E4C94] section-title">Penyimpanan Data Lokal</h2>
+          <p class="mt-4 text-gray-700">Semua data kontraksi yang Anda catat disimpan secara lokal di perangkat Anda menggunakan penyimpanan lokal (local storage). Data ini tidak dikirim ke server kami dan tetap berada di perangkat Anda. Anda dapat menghapus data ini kapan saja melalui fitur "Reset Data" dalam aplikasi.</p>
+        </div>
+        
+        <div class="section-card bg-white rounded-xl p-6 content-section">
+          <h2 class="text-2xl font-semibold text-[#1E4C94] section-title">Penggunaan Aplikasi</h2>
+          <p class="mt-4 text-gray-700">Aplikasi kami berfungsi sepenuhnya di perangkat Anda:</p>
+          <ul class="list-disc pl-6 space-y-2 mt-4 text-gray-700">
+            <li>Menyediakan fungsi utama aplikasi untuk melacak kontraksi</li>
+            <li>Menghitung interval antara kontraksi</li>
+            <li>Memberikan peringatan berdasarkan pola kontraksi</li>
+            <li>Semua perhitungan dilakukan secara lokal di perangkat Anda</li>
+          </ul>
+        </div>
+        
+        <div class="section-card bg-white rounded-xl p-6 content-section">
+          <h2 class="text-2xl font-semibold text-[#1E4C94] section-title">Tidak Ada Berbagi Data</h2>
+          <p class="mt-4 text-gray-700">Karena kami tidak mengumpulkan data pribadi Anda, tidak ada data yang dapat dibagikan dengan pihak ketiga. Data kontraksi Anda tetap bersifat pribadi dan hanya dapat diakses oleh Anda melalui aplikasi di perangkat Anda.</p>
+        </div>
+        
+        <div class="section-card bg-white rounded-xl p-6 content-section">
+          <h2 class="text-2xl font-semibold text-[#1E4C94] section-title">Keamanan Data</h2>
+          <p class="mt-4 text-gray-700">Karena data Anda disimpan secara lokal di perangkat Anda, keamanan data bergantung pada keamanan perangkat Anda. Kami merekomendasikan untuk menggunakan perangkat yang terlindungi dengan baik (seperti kode PIN, sidik jari, atau pengenalan wajah) untuk mencegah akses tidak sah ke data Anda.</p>
+        </div>
+        
+        <div class="section-card bg-white rounded-xl p-6 content-section">
+          <h2 class="text-2xl font-semibold text-[#1E4C94] section-title">Izin Aplikasi</h2>
+          <p class="mt-4 text-gray-700">Aplikasi kami meminta izin berikut:</p>
+          <ul class="list-disc pl-6 space-y-2 mt-4 text-gray-700">
+            <li><strong class="text-[#1E4C94]">Vibrasi:</strong> Untuk memberikan umpan balik haptic saat mencatat kontraksi</li>
+            <li><strong class="text-[#1E4C94]">Penyimpanan:</strong> Untuk menyimpan data kontraksi secara lokal di perangkat Anda</li>
+          </ul>
+        </div>
+        
+        <div class="section-card bg-white rounded-xl p-6 content-section">
+          <h2 class="text-2xl font-semibold text-[#1E4C94] section-title">Hak Pengguna</h2>
+          <p class="mt-4 text-gray-700">Anda memiliki hak penuh atas data Anda:</p>
+          <ul class="list-disc pl-6 space-y-2 mt-4 text-gray-700">
+            <li>Mengakses data kontraksi Anda yang disimpan di perangkat Anda</li>
+            <li>Menghapus semua data kontraksi Anda kapan saja</li>
+            <li>Menghapus aplikasi dari perangkat Anda, yang akan menghapus semua data lokal</li>
+          </ul>
+        </div>
+        
+        <div class="section-card bg-white rounded-xl p-6 content-section">
+          <h2 class="text-2xl font-semibold text-[#1E4C94] section-title">Perubahan Kebijakan Privasi</h2>
+          <p class="mt-4 text-gray-700">Kami dapat memperbarui kebijakan privasi ini dari waktu ke waktu. Kami akan memberi tahu Anda tentang perubahan dengan memposting kebijakan privasi baru di halaman ini dan memperbarui tanggal "Terakhir Diperbarui".</p>
+        </div>
+        
+        <div class="section-card bg-white rounded-xl p-6 content-section">
+          <h2 class="text-2xl font-semibold text-[#1E4C94] section-title">Kontak Kami</h2>
+          <p class="mt-4 text-gray-700">Jika Anda memiliki pertanyaan tentang kebijakan privasi ini, silakan hubungi kami di:</p>
+          <p class="mt-2 text-[#1E4C94] font-medium">Email: admin@arkana.co.id</p>
+        </div>
+        
+        <p class="text-gray-500 text-sm mt-8 pt-4 border-t border-gray-200">Terakhir Diperbarui: 1 Juni 2024</p>
+      </div>
+      
+      <div id="en-content" class="space-y-8 hidden">
+        <div class="section-card bg-white rounded-xl p-6 content-section">
+          <h2 class="text-2xl font-semibold text-[#1E4C94] section-title">Introduction</h2>
+          <p class="mt-4 text-gray-700">Welcome to the Contraction Timer app. We value your privacy and are committed to protecting your personal data. This privacy policy explains how our app operates without collecting your personal data.</p>
+        </div>
+        
+        <div class="section-card bg-white rounded-xl p-6 content-section">
+          <h2 class="text-2xl font-semibold text-[#1E4C94] section-title">No Data Collection</h2>
+          <p class="mt-4 text-gray-700">The Contraction Timer app is designed with your privacy in mind. We <strong class="text-[#1E4C94]">do not collect any personal data</strong> at all. All data you enter into the app is stored locally on your device and is not sent to our servers.</p>
+        </div>
+        
+        <div class="section-card bg-white rounded-xl p-6 content-section">
+          <h2 class="text-2xl font-semibold text-[#1E4C94] section-title">Local Data Storage</h2>
+          <p class="mt-4 text-gray-700">All contraction data you record is stored locally on your device using local storage. This data is not sent to our servers and remains on your device. You can delete this data at any time through the "Reset Data" feature in the app.</p>
+        </div>
+        
+        <div class="section-card bg-white rounded-xl p-6 content-section">
+          <h2 class="text-2xl font-semibold text-[#1E4C94] section-title">App Usage</h2>
+          <p class="mt-4 text-gray-700">Our app functions entirely on your device:</p>
+          <ul class="list-disc pl-6 space-y-2 mt-4 text-gray-700">
+            <li>Providing the core functionality of the app to track contractions</li>
+            <li>Calculating intervals between contractions</li>
+            <li>Providing alerts based on contraction patterns</li>
+            <li>All calculations are performed locally on your device</li>
+          </ul>
+        </div>
+        
+        <div class="section-card bg-white rounded-xl p-6 content-section">
+          <h2 class="text-2xl font-semibold text-[#1E4C94] section-title">No Data Sharing</h2>
+          <p class="mt-4 text-gray-700">Since we do not collect your personal data, there is no data to share with third parties. Your contraction data remains private and is only accessible by you through the app on your device.</p>
+        </div>
+        
+        <div class="section-card bg-white rounded-xl p-6 content-section">
+          <h2 class="text-2xl font-semibold text-[#1E4C94] section-title">Data Security</h2>
+          <p class="mt-4 text-gray-700">Since your data is stored locally on your device, data security depends on the security of your device. We recommend using a well-protected device (such as PIN, fingerprint, or face recognition) to prevent unauthorized access to your data.</p>
+        </div>
+        
+        <div class="section-card bg-white rounded-xl p-6 content-section">
+          <h2 class="text-2xl font-semibold text-[#1E4C94] section-title">App Permissions</h2>
+          <p class="mt-4 text-gray-700">Our app requests the following permissions:</p>
+          <ul class="list-disc pl-6 space-y-2 mt-4 text-gray-700">
+            <li><strong class="text-[#1E4C94]">Vibration:</strong> To provide haptic feedback when recording contractions</li>
+            <li><strong class="text-[#1E4C94]">Storage:</strong> To store contraction data locally on your device</li>
+          </ul>
+        </div>
+        
+        <div class="section-card bg-white rounded-xl p-6 content-section">
+          <h2 class="text-2xl font-semibold text-[#1E4C94] section-title">User Rights</h2>
+          <p class="mt-4 text-gray-700">You have full control over your data:</p>
+          <ul class="list-disc pl-6 space-y-2 mt-4 text-gray-700">
+            <li>Access your contraction data stored on your device</li>
+            <li>Delete all your contraction data at any time</li>
+            <li>Uninstall the app from your device, which will remove all local data</li>
+          </ul>
+        </div>
+        
+        <div class="section-card bg-white rounded-xl p-6 content-section">
+          <h2 class="text-2xl font-semibold text-[#1E4C94] section-title">Changes to Privacy Policy</h2>
+          <p class="mt-4 text-gray-700">We may update this privacy policy from time to time. We will notify you about any changes by posting the new privacy policy on this page and updating the "Last Updated" date.</p>
+        </div>
+        
+        <div class="section-card bg-white rounded-xl p-6 content-section">
+          <h2 class="text-2xl font-semibold text-[#1E4C94] section-title">Contact Us</h2>
+          <p class="mt-4 text-gray-700">If you have any questions about this privacy policy, please contact us at:</p>
+          <p class="mt-2 text-[#1E4C94] font-medium">Email: admin@arkana.co.id</p>
+        </div>
+        
+        <p class="text-gray-500 text-sm mt-8 pt-4 border-t border-gray-200">Last Updated: June 1, 2024</p>
+      </div>
+      
+      <div class="flex justify-center mt-8 gap-4 language-switcher">
+        <button 
+          class="px-4 py-2 rounded-lg font-medium transition-colors active"
+          onclick="switchLanguage('id')"
+        >
+          Bahasa Indonesia
+        </button>
+        <button 
+          class="px-4 py-2 rounded-lg font-medium transition-colors"
+          onclick="switchLanguage('en')"
+        >
+          English
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <a href="/" class="back-to-app">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M19 12H5M12 19l-7-7 7-7"/>
+    </svg>
+    Kembali ke Aplikasi
+  </a>
+
+  <script>
+    function switchLanguage(lang) {
+      const idContent = document.getElementById('id-content');
+      const enContent = document.getElementById('en-content');
+      const headerTitle = document.getElementById('header-title');
+      const headerSubtitle = document.getElementById('header-subtitle');
+      const buttons = document.querySelectorAll('.language-switcher button');
+      
+      if (lang === 'id') {
+        idContent.classList.remove('hidden');
+        enContent.classList.add('hidden');
+        headerTitle.textContent = 'Kebijakan Privasi';
+        headerSubtitle.textContent = 'Aplikasi Timer Kontraksi';
+        document.title = 'Kebijakan Privasi - Timer Kontraksi';
+        
+        buttons[0].classList.add('active');
+        buttons[1].classList.remove('active');
+      } else {
+        idContent.classList.add('hidden');
+        enContent.classList.remove('hidden');
+        headerTitle.textContent = 'Privacy Policy';
+        headerSubtitle.textContent = 'Contraction Timer App';
+        document.title = 'Privacy Policy - Contraction Timer';
+        
+        buttons[0].classList.remove('active');
+        buttons[1].classList.add('active');
+      }
+    }
+
+    // Animate sections when they come into view
+    document.addEventListener('DOMContentLoaded', function() {
+      const sections = document.querySelectorAll('.content-section');
+      
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+          }
+        });
+      }, { threshold: 0.1 });
+      
+      sections.forEach(section => {
+        observer.observe(section);
+      });
+    });
+  </script>
+</body>
+</html> 
