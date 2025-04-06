@@ -11,11 +11,45 @@ export default defineConfig({
       manifest: {
         name: 'Pemantau Kontraksi',
         short_name: 'Kontraksi',
+        id: 'com.kontraksi.app',
         description: 'Aplikasi pemantau kontraksi untuk ibu hamil',
         theme_color: '#1E4C94',
         background_color: '#F5F7FF',
         display: 'standalone',
         orientation: 'portrait',
+        launch_handler: {
+          client_mode: ['navigate-existing', 'auto']
+        },
+        screenshots: [
+          {
+            src: 'screenshot-1.png',
+            sizes: '1080x2400',
+            type: 'image/png',
+            form_factor: 'narrow',
+            label: 'Timer Kontraksi'
+          },
+          {
+            src: 'screenshot-2.png',
+            sizes: '1080x2400',
+            type: 'image/png',
+            form_factor: 'narrow',
+            label: 'Riwayat Kontraksi'
+          },
+          {
+            src: 'screenshot-3.png',
+            sizes: '1080x2400',
+            type: 'image/png',
+            form_factor: 'narrow',
+            label: 'Panduan Kontraksi'
+          }
+        ],
+        categories: ['health', 'medical', 'lifestyle'],
+        dir: 'ltr',
+        lang: 'id',
+        iarc_rating_id: 'e84b072d-71b3-4d3e-86ae-31a8ce4e53b7',
+        prefer_related_applications: false,
+        scope: '/',
+        start_url: '/',
         icons: [
           {
             src: 'favicon-16x16.png',
@@ -43,6 +77,12 @@ export default defineConfig({
             sizes: '180x180',
             type: 'image/png',
             purpose: 'apple touch icon'
+          },
+          {
+            src: 'maskable-icon-512x512.png',
+            sizes: '512x512',
+            type: 'image/png',
+            purpose: 'maskable'
           }
         ]
       }
