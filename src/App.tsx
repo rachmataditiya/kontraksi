@@ -337,10 +337,10 @@ function App() {
                 </div>
 
                 {/* Fixed Bottom Section */}
-                <div className="fixed bottom-0 left-0 right-0 pb-24 pt-4 bg-gradient-to-t from-blue-50 via-blue-50/80 to-transparent">
+                <div className="fixed bottom-0 left-0 right-0 pb-28 pt-4 bg-gradient-to-t from-blue-50 via-blue-50/80 to-transparent">
                   <div className="max-w-md mx-auto px-4">
                     {/* Contraction Button */}
-                    <div className="flex justify-center">
+                    <div className="flex justify-center mb-2">
                       <button
                         onMouseDown={() => !isContractionActive && startContractionTimer()}
                         onMouseUp={() => isContractionActive && stopContractionTimer()}
@@ -384,28 +384,70 @@ function App() {
       {renderPage()}
 
       {/* Bottom Navigation */}
-      <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 p-3 shadow-lg">
+      <div className="fixed bottom-0 left-0 right-0 bg-white/80 backdrop-blur-lg border-t border-gray-200/80 p-4 shadow-lg">
         <div className="max-w-md mx-auto flex justify-around">
           <button
             onClick={() => setCurrentPage('timer')}
-            className={`flex flex-col items-center gap-0.5 ${currentPage === 'timer' ? 'text-blue-600' : 'text-gray-500'}`}
+            className={`group flex flex-col items-center gap-1 transition-all duration-300 ${
+              currentPage === 'timer' 
+                ? 'text-blue-600 scale-110' 
+                : 'text-gray-400 hover:text-gray-600'
+            }`}
           >
-            <Timer className="w-5 h-5" />
-            <span className="text-xs">Timer</span>
+            <div className={`p-2 rounded-xl transition-all duration-300 ${
+              currentPage === 'timer'
+                ? 'bg-blue-50 shadow-md shadow-blue-100/50'
+                : 'group-hover:bg-gray-50'
+            }`}>
+              <Timer className={`w-6 h-6 transition-transform duration-300 ${
+                currentPage === 'timer' ? 'scale-110' : ''
+              }`} />
+            </div>
+            <span className={`text-xs font-medium transition-all duration-300 ${
+              currentPage === 'timer' ? 'text-blue-600' : 'text-gray-500 group-hover:text-gray-700'
+            }`}>Timer</span>
           </button>
           <button
             onClick={() => setCurrentPage('history')}
-            className={`flex flex-col items-center gap-0.5 ${currentPage === 'history' ? 'text-blue-600' : 'text-gray-500'}`}
+            className={`group flex flex-col items-center gap-1 transition-all duration-300 ${
+              currentPage === 'history' 
+                ? 'text-blue-600 scale-110' 
+                : 'text-gray-400 hover:text-gray-600'
+            }`}
           >
-            <Clock className="w-5 h-5" />
-            <span className="text-xs">Riwayat</span>
+            <div className={`p-2 rounded-xl transition-all duration-300 ${
+              currentPage === 'history'
+                ? 'bg-blue-50 shadow-md shadow-blue-100/50'
+                : 'group-hover:bg-gray-50'
+            }`}>
+              <Clock className={`w-6 h-6 transition-transform duration-300 ${
+                currentPage === 'history' ? 'scale-110' : ''
+              }`} />
+            </div>
+            <span className={`text-xs font-medium transition-all duration-300 ${
+              currentPage === 'history' ? 'text-blue-600' : 'text-gray-500 group-hover:text-gray-700'
+            }`}>Riwayat</span>
           </button>
           <button
             onClick={() => setCurrentPage('education')}
-            className={`flex flex-col items-center gap-0.5 ${currentPage === 'education' ? 'text-blue-600' : 'text-gray-500'}`}
+            className={`group flex flex-col items-center gap-1 transition-all duration-300 ${
+              currentPage === 'education' 
+                ? 'text-blue-600 scale-110' 
+                : 'text-gray-400 hover:text-gray-600'
+            }`}
           >
-            <BookOpen className="w-5 h-5" />
-            <span className="text-xs">Panduan</span>
+            <div className={`p-2 rounded-xl transition-all duration-300 ${
+              currentPage === 'education'
+                ? 'bg-blue-50 shadow-md shadow-blue-100/50'
+                : 'group-hover:bg-gray-50'
+            }`}>
+              <BookOpen className={`w-6 h-6 transition-transform duration-300 ${
+                currentPage === 'education' ? 'scale-110' : ''
+              }`} />
+            </div>
+            <span className={`text-xs font-medium transition-all duration-300 ${
+              currentPage === 'education' ? 'text-blue-600' : 'text-gray-500 group-hover:text-gray-700'
+            }`}>Panduan</span>
           </button>
         </div>
       </div>
