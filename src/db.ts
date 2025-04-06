@@ -3,6 +3,11 @@ import { openDB } from 'idb';
 const dbName = 'contractionDB';
 const storeName = 'contractions';
 
+export interface Contraction {
+  timestamp: number;
+  duration?: number; // Durasi kontraksi dalam milidetik
+}
+
 export const db = await openDB(dbName, 1, {
   upgrade(db) {
     if (!db.objectStoreNames.contains(storeName)) {
@@ -11,8 +16,22 @@ export const db = await openDB(dbName, 1, {
   },
 });
 
-export async function saveContraction(timestamp: Date) {
-  await db.add(storeName, { timestamp: timestamp.getTime() });
+export async function saveContraction(timestamp: Date, duration?: number) {
+  await db.add(storeName, { 
+    timestamp: timestamp.getTime(),
+    duration: duration
+  });
+}
+
+export async function updateContractionDuration(timestamp: number, duration: number) {
+  const tx = db.transaction(storeName, 'readwrite');
+  const store = tx.objectStore(storeName);
+  const contraction = await store.get(timestamp);
+  
+  if (contraction) {
+    contraction.duration = duration;
+    await store.put(contraction);
+  }
 }
 
 export async function getContractions() {
