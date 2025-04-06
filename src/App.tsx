@@ -143,7 +143,7 @@ function App() {
   };
 
   const getMessage = () => {
-    if (!interval) return 'Tekan tombol saat kontraksi dimulai';
+    if (!interval) return '';
     if (interval <= 3) return 'SEGERA KE RUMAH SAKIT!';
     if (interval <= 5) return 'Bersiaplah ke rumah sakit';
     return 'Pantau terus kontraksi Anda';
@@ -250,7 +250,7 @@ function App() {
           <div className={`min-h-screen ${colors.bg} transition-colors duration-500 pb-24`}>
             <div className="flex flex-col items-center p-4 md:p-6">
               {/* Main Content */}
-              <div className="flex-1 flex flex-col items-center justify-center w-full max-w-md gap-4">
+              <div className="flex-1 flex flex-col items-center justify-center w-full max-w-md space-y-4">
                 {/* Status Display */}
                 <div className={`w-full p-4 rounded-xl bg-white/80 backdrop-blur-xl border ${colors.border} shadow-lg`}>
                   <div className="flex items-center justify-between mb-2">
@@ -263,16 +263,18 @@ function App() {
                     </span>
                   </div>
                   
-                  <div className={`flex items-center gap-2 mt-2 p-3 rounded-lg ${
-                    urgencyLevel !== 'normal' ? 'bg-white/50' : 'bg-transparent'
-                  }`}>
-                    {urgencyLevel !== 'normal' ? (
-                      <AlertTriangle className={`w-4 h-4 ${colors.text}`} />
-                    ) : (
-                      <Clock className={`w-4 h-4 ${colors.text}`} />
-                    )}
-                    <span className={`font-medium text-sm ${colors.text}`}>{getMessage()}</span>
-                  </div>
+                  {interval && (
+                    <div className={`flex items-center gap-2 mt-2 p-3 rounded-lg ${
+                      urgencyLevel !== 'normal' ? 'bg-white/50' : 'bg-transparent'
+                    }`}>
+                      {urgencyLevel !== 'normal' ? (
+                        <AlertTriangle className={`w-4 h-4 ${colors.text}`} />
+                      ) : (
+                        <Clock className={`w-4 h-4 ${colors.text}`} />
+                      )}
+                      <span className={`font-medium text-sm ${colors.text}`}>{getMessage()}</span>
+                    </div>
+                  )}
                 </div>
 
                 {/* Info Card */}
@@ -310,45 +312,64 @@ function App() {
                   </div>
                 </div>
 
-                {/* Contraction Button */}
-                <button
-                  onMouseDown={() => !isContractionActive && startContractionTimer()}
-                  onMouseUp={() => isContractionActive && stopContractionTimer()}
-                  onMouseLeave={() => isContractionActive && stopContractionTimer()}
-                  onTouchStart={() => !isContractionActive && startContractionTimer()}
-                  onTouchEnd={() => isContractionActive && stopContractionTimer()}
-                  disabled={isContractionActive}
-                  className={`w-40 h-40 rounded-full bg-gradient-to-br ${isContractionActive ? 'from-red-500 to-red-600' : colors.button}
-                           flex items-center justify-center text-white text-lg font-bold
-                           shadow-[0_8px_30px_rgb(0,0,0,0.12)] transform
-                           transition-all duration-200 hover:brightness-110
-                           relative overflow-hidden isolate
-                           ${isContractionActive ? 'scale-95 shadow-inner brightness-90' : 'scale-100'}
-                           before:absolute before:inset-0 before:bg-gradient-to-t
-                           before:from-black/10 before:to-white/20 before:rounded-full
-                           after:absolute after:inset-[3px] after:rounded-full
-                           after:bg-gradient-to-b after:from-white/80 after:via-transparent
-                           after:to-transparent after:opacity-50 after:-z-10
-                           ring-[16px] ${isContractionActive ? 'ring-red-500' : colors.ring} ring-opacity-20
-                           ${isContractionActive ? 'cursor-not-allowed' : 'cursor-pointer'}
-                           mt-8`}
-                >
-                  <span className={`transform ${isContractionActive ? 'scale-95' : 'scale-100'} 
-                                transition-transform duration-200`}>
-                    {isContractionActive ? 'KONTRAKSI' : 'KONTRAKSI'}
-                  </span>
-                </button>
-                
-                {/* Contraction Timer */}
-                {isContractionActive && (
-                  <div className="mt-2 bg-white rounded-xl shadow-sm p-3 border border-gray-100 flex items-center justify-center gap-2">
-                    <StopCircle className="w-5 h-5 text-red-500 animate-pulse" />
-                    <div className="text-center">
-                      <p className="text-xs text-gray-500">Durasi Kontraksi</p>
-                      <p className="text-xl font-bold text-red-600">{formatDuration(contractionDuration)}</p>
+                {/* Timer Card */}
+                <div className="w-full bg-white rounded-xl shadow-sm p-4 border border-gray-100">
+                  <div className="flex flex-col items-center h-full">
+                    <div className="text-4xl font-bold mb-2 font-mono">
+                      {formatDuration(contractionDuration)}
+                    </div>
+                    <div className="text-sm text-gray-600 text-center mb-2">
+                      {isContractionActive ? 'Durasi Kontraksi' : 'Timer Siap'}
+                    </div>
+                    <div className="flex-1 flex items-center">
+                      {isContractionActive ? (
+                        <div className="bg-blue-50 p-2.5 rounded-lg text-sm text-blue-800 max-w-xs text-center">
+                          <p className="font-medium mb-1">Teknik Pernapasan</p>
+                          <p className="text-xs">Tarik napas (4 hitungan) → Tahan → Hembuskan perlahan</p>
+                        </div>
+                      ) : (
+                        <div className="text-sm text-gray-500 text-center">
+                          Tekan dan tahan tombol di bawah saat kontraksi dimulai
+                        </div>
+                      )}
                     </div>
                   </div>
-                )}
+                </div>
+
+                {/* Fixed Bottom Section */}
+                <div className="fixed bottom-0 left-0 right-0 pb-24 pt-4 bg-gradient-to-t from-blue-50 via-blue-50/80 to-transparent">
+                  <div className="max-w-md mx-auto px-4">
+                    {/* Contraction Button */}
+                    <div className="flex justify-center">
+                      <button
+                        onMouseDown={() => !isContractionActive && startContractionTimer()}
+                        onMouseUp={() => isContractionActive && stopContractionTimer()}
+                        onMouseLeave={() => isContractionActive && stopContractionTimer()}
+                        onTouchStart={() => !isContractionActive && startContractionTimer()}
+                        onTouchEnd={() => isContractionActive && stopContractionTimer()}
+                        disabled={isContractionActive}
+                        className={`w-40 h-40 rounded-full bg-gradient-to-br ${isContractionActive ? 'from-red-500 to-red-600' : colors.button}
+                                 flex items-center justify-center text-white text-lg font-bold
+                                 shadow-[0_8px_30px_rgb(0,0,0,0.12)] transform
+                                 transition-all duration-200 hover:brightness-110
+                                 relative overflow-hidden isolate
+                                 ${isContractionActive ? 'scale-95 shadow-inner brightness-90' : 'scale-100'}
+                                 before:absolute before:inset-0 before:bg-gradient-to-t
+                                 before:from-black/10 before:to-white/20 before:rounded-full
+                                 after:absolute after:inset-[3px] after:rounded-full
+                                 after:bg-gradient-to-b after:from-white/80 after:via-transparent
+                                 after:to-transparent after:opacity-50 after:-z-10
+                                 ring-[16px] ${isContractionActive ? 'ring-red-500' : colors.ring} ring-opacity-20
+                                 ${isContractionActive ? 'cursor-not-allowed' : 'cursor-pointer'}`}
+                      >
+                        <span className={`transform ${isContractionActive ? 'scale-95' : 'scale-100'} 
+                                    transition-transform duration-200`}>
+                          {isContractionActive ? 'KONTRAKSI' : 'KONTRAKSI'}
+                        </span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
