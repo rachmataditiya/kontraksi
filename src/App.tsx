@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Timer, AlertTriangle, Clock, ChevronRight, BookOpen, Activity, Calendar, Info, StopCircle, Trash2 } from 'lucide-react';
 import { formatDistanceToNow, format } from 'date-fns';
 import { id } from 'date-fns/locale';
-import { saveContraction, getContractions, clearOldContractions, updateContractionDuration, Contraction, db } from './db';
+import { saveContraction, getContractions, clearOldContractions, Contraction, db } from './db';
 import Education from './pages/Education';
 import { getStatusColors } from './theme';
 
@@ -20,11 +20,11 @@ function App() {
   const [contractionCount, setContractionCount] = useState(0);
   
   // State untuk timer kontraksi
-  const [isContractionActive, setIsContractionActive] = useState(false);
-  const [contractionDuration, setContractionDuration] = useState(0);
+  const [timer, setTimer] = useState<number | null>(null);
   const [contractionStartTime, setContractionStartTime] = useState<Date | null>(null);
-  const timerRef = useRef<number | null>(null);
-  const isTimerRunning = useRef<boolean>(false);
+  const [contractionDuration, setContractionDuration] = useState(0);
+  const [isContractionActive, setIsContractionActive] = useState(false);
+  const isTimerRunning = useRef(false);
 
   useEffect(() => {
     loadContractions();
@@ -32,9 +32,8 @@ function App() {
     
     // Cleanup timer on unmount
     return () => {
-      if (timerRef.current) {
-        clearInterval(timerRef.current);
-        timerRef.current = null;
+      if (timer) {
+        clearInterval(timer);
       }
     };
   }, []);
@@ -67,48 +66,73 @@ function App() {
   }, [contractions]);
 
   const startContractionTimer = () => {
-    // Pastikan timer tidak berjalan dua kali
     if (isTimerRunning.current) return;
     
     const now = new Date();
     setContractionStartTime(now);
-    setIsContractionActive(true);
     setContractionDuration(0);
+    setIsContractionActive(true);
     isTimerRunning.current = true;
     
-    // Start timer
-    timerRef.current = window.setInterval(() => {
+    // Mulai timer
+    const newTimer = window.setInterval(() => {
       setContractionDuration(prev => prev + 1);
     }, 1000);
+    setTimer(newTimer);
     
-    // Save initial contraction
-    saveContraction(now);
-    
-    // Vibrasi jika tersedia
+    // Vibrasi saat mulai
     if (navigator.vibrate) {
-      navigator.vibrate([100, 50, 100]);
+      navigator.vibrate(200);
     }
   };
 
-  const stopContractionTimer = () => {
-    // Pastikan timer sedang berjalan
-    if (!isTimerRunning.current) return;
+  const stopContractionTimer = async () => {
+    if (!isTimerRunning.current || !contractionStartTime) return;
     
-    if (timerRef.current) {
-      clearInterval(timerRef.current);
-      timerRef.current = null;
+    const now = new Date();
+    const durationMs = now.getTime() - contractionStartTime.getTime();
+    
+    // Simpan kontraksi dengan durasi
+    const newContraction: Contraction = {
+      timestamp: contractionStartTime.getTime(),
+      duration: durationMs
+    };
+    await saveContraction(contractionStartTime, durationMs);
+    
+    // Update state
+    setContractions(prev => [newContraction, ...prev]);
+    
+    // Update statistik
+    setContractionCount(prev => prev + 1);
+    setLastContractionTime(contractionStartTime);
+    
+    // Hitung interval
+    if (contractions.length > 0) {
+      const interval = contractionStartTime.getTime() - contractions[0].timestamp;
+      setInterval(interval);
+      
+      // Update urgency level
+      if (interval <= 5 * 60 * 1000) {
+        setUrgencyLevel('urgent');
+      } else if (interval <= 10 * 60 * 1000) {
+        setUrgencyLevel('warning');
+      } else {
+        setUrgencyLevel('normal');
+      }
     }
     
-    isTimerRunning.current = false;
+    // Reset timer
+    if (timer) {
+      window.clearInterval(timer);
+    }
+    setTimer(null);
     setIsContractionActive(false);
+    setContractionDuration(0);
+    isTimerRunning.current = false;
     
-    // Update the last contraction with duration
-    if (contractionStartTime) {
-      const durationMs = Date.now() - contractionStartTime.getTime();
-      updateContractionDuration(contractionStartTime.getTime(), durationMs);
-      
-      // Reload contractions to get updated data
-      loadContractions();
+    // Vibrasi saat selesai
+    if (navigator.vibrate) {
+      navigator.vibrate([100, 50, 100]);
     }
   };
 

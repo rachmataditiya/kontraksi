@@ -16,23 +16,15 @@ export const db = await openDB(dbName, 1, {
   },
 });
 
-export async function saveContraction(timestamp: Date, duration?: number) {
-  await db.add(storeName, { 
+export const saveContraction = async (timestamp: Date, duration: number = 0) => {
+  const tx = db.transaction('contractions', 'readwrite');
+  const store = tx.objectStore('contractions');
+  const contraction: Contraction = {
     timestamp: timestamp.getTime(),
-    duration: duration
-  });
-}
-
-export async function updateContractionDuration(timestamp: number, duration: number) {
-  const tx = db.transaction(storeName, 'readwrite');
-  const store = tx.objectStore(storeName);
-  const contraction = await store.get(timestamp);
-  
-  if (contraction) {
-    contraction.duration = duration;
-    await store.put(contraction);
-  }
-}
+    duration
+  };
+  await store.add(contraction);
+};
 
 export async function getContractions() {
   return await db.getAll(storeName);
